@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" slick-uniqueid="3">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="keywords" content="Xin-Yang Zheng, Tsinghua University, 郑欣阳, 清华大学, 3D Generation">
+<meta name="description" content="MVD$^2$: Efficient Multiview 3D Reconstruction for Multiview Diffusion">
+<link rel="stylesheet" href="../homepage_files/style/jemdoc.css" type="text/css">
+<style type="text/css">
+</style>
+<title>MVD_square</title>
+</head>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script defer src="./MVD_square_files/js/fontawesome.all.min.js"></script>
+<script src="./MVD_square_files/js/bulma-carousel.min.js"></script>
+<script src="./MVD_square_files/js/bulma-slider.min.js"></script>
+<script src="./MVD_square_files/js/index.js"></script>
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+
+<script> 
+candidates_file_unqiue_ID = ['a_goose_made_out_of_gold',
+'horse_water',
+'00_zero123_lysol',
+'goose',
+'My_First_Rolling_Lion',
+'Android_Lego',
+'20_objaverse_stool',
+'owl',
+'UGG_Classic_Tall_Womens_Boots_Chestnut_7',
+'a_plush_dragon_toy',
+'a_red-eyed_tree_frog',
+'a_mug_of_hot_chocolate_with_whipped_cream_and_marshmallows',
+'stone',
+'21_objaverse_barrel',
+'14_10_29_489_Tiger_1__1',
+'a_beautifully_carved_wooden_knight_chess_piece',
+'colorful_teapot',
+'Toysmith_Windem_Up_Flippin_Animals_Dog',
+];
+
+
+      // on load function
+      $(document).ready(function () {
+        refreshPage();
+  
+        var total_page = document.getElementById("total_page");
+        total_page.innerHTML = 3;
+      });
+    
+      function nextPage() {
+        
+        var page_id = "page";
+        var page = document.getElementById(page_id).innerHTML;
+        page = parseInt(page);
+        page = page + 1;
+        if (page > 3)
+            page = page - 1;
+        document.getElementById(page_id).innerHTML = page;
+        refreshPage();
+      }
+  
+      function refreshPage() {
+        var page_id = "page";
+
+        var page = document.getElementById(page_id).innerHTML;
+        page = parseInt(page);
+        var resoruce_folder = "./MVD_square_files/";
+      
+        for (var i = 0; i < 6; i++) {
+          var img_id = "img_" + i;
+          var video_id = "video_geo_" + i;
+          var video_tex_id = "video_tex_" + i;
+          var cur_page = page - 1;
+          var img_src = resoruce_folder + candidates_file_unqiue_ID[i + cur_page * 6] + ".png";
+          var video_src = resoruce_folder +  candidates_file_unqiue_ID[i + cur_page * 6] + "_geo.mp4";
+          var video_tex_src = resoruce_folder +  candidates_file_unqiue_ID[i + cur_page * 6] + "_tex.mp4";
+
+          document.getElementById(img_id).src = img_src;
+          document.getElementById(video_id).src = video_src;
+          document.getElementById(video_tex_id).src = video_tex_src;
+        }
+      }
+      
+  
+      function previousPage() {
+        
+        var page_id = "page";
+        var page = document.getElementById(page_id).innerHTML;
+        page = parseInt(page);
+        if (page > 1)
+          page = page - 1;
+        document.getElementById(page_id).innerHTML = page;
+        refreshPage();
+      }
+    </script>
+
+
+<body>
+<div id="layout-content" style="margin-top:25px">
+
+<!-- teaser -->
+<table border="0" width="100%"> <tbody>
+<tr>
+  <td valign="top" align="center">
+    <b><font size="5" face="Times New Roman" >MVD<sup>2</sup>: Efficient Multiview 3D Reconstruction for Multiview Diffusion</font></b>
+    <br><br>
+  </td>
+</tr>
+
+<tr>
+  <td valign="top" align="center">
+    <font size="4" face="Times New Roman" > <a href="https://zhengxinyang.github.io/"  target="_blank">Xin-Yang Zheng</a> </font> <font size="2"><sup>1</sup></font> &emsp;&emsp;
+    <font size="4" face="Times New Roman" > <a href="https://haopan.github.io/"  target="_blank">Hao Pan</a> </font> <font size="2"><sup>2</sup></font> &emsp;&emsp;
+    <font size="4" face="Times New Roman" > <a href="https://yuxiaoguo.github.io/"  target="_blank">Yu-Xiao Guo</a> </font> <font size="2"><sup>2</sup></font> &emsp;&emsp;
+
+    <font size="4" face="Times New Roman" > <a href="http://research.microsoft.com/en-us/um/people/xtong/xtong.html"  target="_blank">Xin Tong</a> </font> <font size="2"><sup>2</sup></font> &emsp;&emsp;
+    <font size="4" face="Times New Roman" > <a href="https://xueyuhanlang.github.io/"  target="_blank">Yang Liu</a> </font> <font size="2"><sup>2</sup></font> 
+
+    <br> 
+    <font size="2"> <sup>1</sup></font> <font size="3" face="Times New Roman" > <a href="https://www.tsinghua.edu.cn/en/index.htm" target="_blank">Tsinghua University</a></font>
+    &emsp;&emsp;
+    <font size="2"> <sup>2</sup></font> <font size="3" face="Times New Roman" ><a href="http://research.microsoft.com/en-us/labs/asia/" target="_blank">Microsoft Research Asia</a> </font>
+    &emsp;&emsp;
+    <br>
+    <font size="3" face="Times New Roman" > SIGGRAPH Conference Proceedings (SIGGRAPH 2024) </font>
+    <br>
+    
+    <!-- <br>
+    <font size="4" face="Times New Roman" > <strong>Paper</strong> [<a href="https://arxiv.org/abs/2402.14253" target="_blank">PDF</a>] 
+      <strong>Code</strong> [<a href="https://github.com/Zhengxinyang/MVD_square"  target="_blank">Github</a>] 
+      <strong>Demo</strong> [<a href="" target="_blank">Demo</a>]<br> </font>
+    <br> -->
+    
+    <br>
+  </td>
+</tr>
+
+<tr>
+  <td valign="top" align="center">
+      <img width="70%" src="./MVD_square_files/teaser_right.jpg">
+  </td>
+</tr>
+</tbody> </table>
+
+
+<table border="0" width="100%"> <tbody>
+  <h2>TL; DR</h2>
+  <tr>
+    <p style="text-align:justify;">
+    <font face="Times New Roman" >
+      MVD<sup>2</sup> reconstructs high-quality 3D shapes from multiview diffusion (MVD) images by efficient feedforward network prediction. MVD<sup>2</sup> addresses MVD image inconsistency to achieve high-quality reconstruction, and scales to different MVD image generators (Zero123++, SyncDreamer, Wonder3D,etc.).
+    </font>
+    </p>
+  </tr>
+
+<!-- Abstract -->
+<table border="0" width="100%"> <tbody>
+<h2>Abstract</h2>
+<tr>
+  <p style="text-align:justify;">
+  <font face="Times New Roman" >
+    Multiview diffusion (MVD) has emerged as a prominent 3D generation technique, acclaimed for its generalizability, quality, and efficiency. MVD models finetune image diffusion models with 3D data to generate multiple views of a 3D object from an image or text prompt, followed by a multiview 3D reconstruction process. However, the sparsity of views and inconsistent details in the generated multiview images pose challenges for 3D reconstruction. We present MVD<sup>2</sup>, an efficient 3D reconstruction method tailored for MVD images. MVD<sup>2</sup> integrates multiview image features into a 3D feature volume, then transforms this volume into a textureless 3D mesh, onto which the MVD images are mapped as textures. It employs a simple-yet-efficient view-dependent training scheme to mitigate discrepancies between MVD images and ground-truth views of 3D shapes, effectively improving 3D generation quality and robustness. MVD<sup>2</sup> is trained with 3D collections and MVD images, and the trained MVD<sup>2</sup> efficiently reconstructs 3D meshes from multiview images within one second and exhibits great model generalizability in dealing with images generated by various MVD methods.
+  </font>
+  </p>
+</tr>
+
+<table border="0" width="100%"> <tbody>
+  <h2>Method</h2>
+  <tr>
+    
+    <p style="text-align:justify;">
+    <font face="Times New Roman" >
+      The MVD model generates multiple images from specific viewpoints using a reference image. MVD<sup>2</sup> extracts and fuses the features of these images into a coarse 3D grid G, and interpolates them into a dense grid G', from which the surface mesh is extracted in a differentiable manner. During training, mesh reconstruction is guided by pixelwise loss (red arrow) against depth/normal/mask maps at the reference view v<sub>0</sub>, and structural loss (yellow arrow) against normal maps from other views. The resulting mesh can be textured by mapping MVD images onto it.
+    </font>
+    </p>
+    <td align="center"> <img width="90%" src="./MVD_square_files/method.jpg"></td>
+  </tr>
+
+
+
+<table border="0" width="100%"> <tbody>
+  <h2>Results</h2>
+
+  <div class="new-container">
+    <table width="100%" class="center">
+        <tr>
+            <td width="16.7%" style="text-align:center;"><b>Input</b></td>
+            <td width="16.7%" style="text-align:center;"><b>Geometry</b></td>
+            <td width="16.7%" style="text-align:center;"><b>Textured Mesh</b></td>
+
+            <td width="16.7%" style="text-align:center;"><b>Input</b></td>
+            <td width="16.7%" style="text-align:center;"><b>Geometry</b></td>
+            <td width="16.7%" style="text-align:center;"><b>Textured Mesh</b></td>
+        </tr>
+    </table>
+  <div class="new-container">
+    <table width="100%" class="center">
+        <tr>
+          <td width="16.7%" style="text-align:center;"><img id="img_0" src="" width="80%" class="center"></td>
+          <td width="16.7%" style="text-align:center;"> <video width="150" id="video_geo_0" src="" autoplay loop muted ></video></td>
+   
+            <td width="16.7%" style="text-align:center;"> <video width="150" id="video_tex_0" src="" autoplay loop muted></video> </td>
+            <td width="16.7%" style="text-align:center;"><img id="img_1" src="" width="80%" class="center"></td>
+          <td width="16.7%" style="text-align:center;"> <video width="150" id="video_geo_1" src="" autoplay loop muted ></video></td>
+   
+            <td width="16.7%" style="text-align:center;"> <video width="150" id="video_tex_1" src="" autoplay loop muted></video> </td>
+
+        </tr>
+
+        <tr>
+          <td width="16.7%" style="text-align:center;"><img id="img_2" src="" width="80%" class="center"></td>
+          <td width="16.7%" style="text-align:center;"> <video width="150" id="video_geo_2" src="" autoplay loop muted ></video></td>
+   
+            <td width="16.7%" style="text-align:center;"> <video width="150" id="video_tex_2" src="" autoplay loop muted></video> </td>
+            <td width="16.7%" style="text-align:center;"><img id="img_3" src="" width="80%" class="center"></td>
+          <td width="16.7%" style="text-align:center;"> <video width="150" id="video_geo_3" src="" autoplay loop muted ></video></td>
+   
+            <td width="16.7%" style="text-align:center;"> <video width="150" id="video_tex_3" src="" autoplay loop muted></video> </td>
+
+        </tr>
+
+        <tr>
+          <td width="16.7%" style="text-align:center;"><img id="img_4" src="" width="80%" class="center"></td>
+          <td width="16.7%" style="text-align:center;"> <video width="150" id="video_geo_4" src="" autoplay loop muted ></video></td>
+   
+            <td width="16.7%" style="text-align:center;"> <video width="150" id="video_tex_4" src="" autoplay loop muted></video> </td>
+            <td width="16.7%" style="text-align:center;"><img id="img_5" src="" width="80%" class="center"></td>
+          <td width="16.7%" style="text-align:center;"> <video width="150" id="video_geo_5" src="" autoplay loop muted ></video></td>
+   
+            <td width="16.7%" style="text-align:center;"> <video width="150" id="video_tex_5" src="" autoplay loop muted></video> </td>
+
+        </tr>
+
+    </table>
+
+    <p align="center">
+      <button class='btn' onclick="previousPage()">Previous</button>
+      <text class='btn' id="page">1</text><text class='btn'>/</text><text class='btn' id="total_page">3</text>
+      <button class='btn' onclick="nextPage()">Next</button>
+    </p>
+
+</div> 
+
+
+
+
+  <table border="0" width="100%"> <tbody>
+    <h2>Links</h2>
+  <td align="center" width="25%">
+    <img src="./MVD_square_files/representative.jpg" width="200">
+  </td>
+  <td>
+    <strong>Paper</strong> [<a href="https://arxiv.org/abs/2402.14253" target="_blank">PDF</a>] <br><br>
+    <strong>Code</strong> [<a href="https://github.com/Zhengxinyang/MVD_square"  target="_blank">Github</a>] <br><br>
+    <strong>Citation</strong> [<a href="./MVD_square_files/ref.bib" target="_blank">BibTeX</a>]<br>
+    </p>
+  </td>
+</tr>
+</tbody> </table>
+
+</div>
+</body>
+</html>
